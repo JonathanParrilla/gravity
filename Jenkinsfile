@@ -66,6 +66,7 @@ timestamps {
         usernameVariable: 'AWS_ACCESS_KEY_ID',
         passwordVariable: 'AWS_SECRET_ACCESS_KEY',
       ],
+      [string(credentialsId:'GET_GRAVITATIONAL_IO_APIKEY', variable: 'BUILD_APIKEY')],
       ]) {
         sh 'make -C e production telekube-intermediate-upgrade opscenter'
       }
