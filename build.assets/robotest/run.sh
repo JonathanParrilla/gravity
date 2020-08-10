@@ -27,6 +27,7 @@ export GCE_VM=${GCE_VM:-custom-4-8192}
 # Parallelism & retry, tuned for GCE
 export PARALLEL_TESTS=${PARALLEL_TESTS:-4}
 export REPEAT_TESTS=${REPEAT_TESTS:-1}
+GRAVITY_PULL_OPTIONS=${GRAVITY_PULL_OPTIONS:-""}
 
 # set SUITE and UPGRADE_VERSIONS
 case $TARGET in
@@ -47,7 +48,10 @@ export EXTRA_VOLUME_MOUNTS=$(build_volume_mounts)
 tele=$GRAVITY_BUILDDIR/tele
 mkdir -p $UPGRADE_FROM_DIR
 for release in ${!UPGRADE_MAP[@]}; do
-  $tele pull telekube:$release --output=$UPGRADE_FROM_DIR/telekube_$release.tar --state-dir $GRAVITY_BUILDDIR/.robotest
+  $tele pull telekube:$release \
+    --output=$UPGRADE_FROM_DIR/telekube_$release.tar \
+    --state-dir $GRAVITY_BUILDDIR/.robotest \
+    $GRAVITY_PULL_OPTIONS
 done
 
 docker pull $ROBOTEST_REPO
